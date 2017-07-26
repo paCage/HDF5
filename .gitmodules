@@ -1,0 +1,3 @@
+[submodule "Makefile.paCage"]
+	path = Makefile.paCage
+	url = git@github.com:paCage/Makefile.paCage.git
