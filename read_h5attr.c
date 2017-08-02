@@ -2,12 +2,13 @@
  * read_h5attr.c
  * tests_file: read_h5attr_tests.c
  *
- * Reading an attribute of a group
+ * Retrieving one attribute from a group
  *
  * @param: fid: File identifier
  * @param: group_name:
  * @param: attr_name:
- * @dtype: Data type ()
+ * @param: dtype_id: Data type identifier from HDF5 lib
+ * @param: dest: Pointer to the memory space to be filled
  *
  * @return: Standard EXIT_SUCCESS or EXIT_FAILURE
  */
@@ -32,7 +33,8 @@ int read_h5attr(hid_t fid, char *group_name, char *attr_name,
 
   if(gid < 0)
     {
-      PRINT("[Warning] Unable to read attribute %s\n", attr_name);
+      H5Gclose(gid);
+      PRINT("[Warning] Unable to open attribute %s\n", attr_name);
       status = EXIT_FAILURE;
     }
 
@@ -41,7 +43,7 @@ int read_h5attr(hid_t fid, char *group_name, char *attr_name,
   if(aid < 0)
     {
       H5Gclose(gid);
-      PRINT("[Warning] Unable to read attribute %s\n", attr_name);
+      PRINT("[Warning] Unable to open attribute %s\n", attr_name);
       status = EXIT_FAILURE;
     }
 
@@ -54,14 +56,14 @@ int read_h5attr(hid_t fid, char *group_name, char *attr_name,
 
   if(H5Aread(aid, dtype_id, dest) < 0)
     {
-      H5Gclose(gid);
       H5Aclose(aid);
+      H5Gclose(gid);
       PRINT("[Warning] Unable to read attribute %s\n", attr_name);
       status = EXIT_FAILURE;
     }
 
-  H5Gclose(gid);
   H5Aclose(aid);
+  H5Gclose(gid);
 
   return status;
 }
