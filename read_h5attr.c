@@ -26,7 +26,7 @@
 int read_h5attr(hid_t fid, char *group_name, char *attr_name,
                 hid_t dtype_id, void *dest)
 {
-  hid_t aid;
+  hid_t attr_id;
   hid_t gid = H5Gopen(fid, group_name, H5P_DEFAULT);
 
   int status = EXIT_SUCCESS;
@@ -38,31 +38,41 @@ int read_h5attr(hid_t fid, char *group_name, char *attr_name,
       status = EXIT_FAILURE;
     }
 
-  aid = H5Aopen_name(gid, attr_name);
+  attr_id = H5Aopen_name(gid, attr_name);
 
-  if(aid < 0)
+  if(attr_id < 0)
     {
       H5Gclose(gid);
       PRINT("[Warning] Unable to open attribute %s\n", attr_name);
       status = EXIT_FAILURE;
     }
 
-  /* Handle string loading*/
+  /* Handle variable length string*/
   if(dtype_id == H5T_C_S1)
     {
       dtype_id = H5Tcopy(H5T_C_S1);
       H5Tset_size (dtype_id, H5T_VARIABLE);
     }
 
-  if(H5Aread(aid, dtype_id, dest) < 0)
+  /* Handle fixed length string*/
+  if(dtype_id == H5T_STRING)
     {
-      H5Aclose(aid);
+      dtype_id = H5Aget_type(attr_id);
+      size_t sdim = H5Tget_size(dtype_id);
+
+      dtype_id = H5Tcopy(H5T_C_S1);
+      H5Tset_size (dtype_id, ++sdim);
+    }
+
+  if(H5Aread(attr_id, dtype_id, dest) < 0)
+    {
+      H5Aclose(attr_id);
       H5Gclose(gid);
       PRINT("[Warning] Unable to read attribute %s\n", attr_name);
       status = EXIT_FAILURE;
     }
 
-  H5Aclose(aid);
+  H5Aclose(attr_id);
   H5Gclose(gid);
 
   return status;

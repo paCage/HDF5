@@ -60,6 +60,16 @@ int read_h5attrs(hid_t fid, char *group_name, char *attr_name, ...)
           H5Tset_size (dtype_id, H5T_VARIABLE);
         }
 
+      /* Handle fixed length string*/
+      if(dtype_id == H5T_STRING)
+        {
+          dtype_id = H5Aget_type(attr_id);
+          size_t sdim = H5Tget_size(dtype_id);
+
+          dtype_id = H5Tcopy(H5T_C_S1);
+          H5Tset_size (dtype_id, ++sdim);
+        }
+
       h5err = H5Aread(attr_id, dtype_id, dest);
       if(h5err < 0)
         {
