@@ -4,7 +4,7 @@
  *
  * Retrieving one attribute from a dataset
  *
- * @param: fid: File identifier
+ * @param: file_id: File identifier
  * @param: dset_name: dataset identifier
  * @param: attr_name:
  * @param: dtype_id: Data type identifier from HDF5 lib
@@ -23,10 +23,10 @@
 #endif
 
 
-int read_h5dattr(hid_t fid, char *dset_name, char *attr_name,
+int read_h5dattr(hid_t file_id, char *dset_name, char *attr_name,
                  hid_t dtype_id, void *dest)
 {
-  hid_t dset_id = H5Dopen(fid, dset_name, H5P_DEFAULT);
+  hid_t dset_id = H5Dopen(file_id, dset_name, H5P_DEFAULT);
 
   int status = EXIT_SUCCESS;
 

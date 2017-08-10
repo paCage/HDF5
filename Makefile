@@ -1,19 +1,23 @@
 MODULE_NAME := High5
 
-_FILES := open_h5 \
-          read_h5attr \
-          read_h5attrs \
-          read_h5dset \
-          read_h5dattr \
-          read_h5dattrs
+_CSRC := open_h5.c \
+         read_h5attr.c \
+         read_h5attrs.c \
+         read_h5dset.c \
+         read_h5dattr.c \
+         read_h5dattrs.c
 
-_TESTS := open_h5_tests \
-          read_h5attr_tests \
-          read_h5attrs_tests \
-          read_h5dset_tests \
-          read_h5dattr_tests \
-          read_h5dattrs_tests
+_TSRC := open_h5_tests.c \
+         read_h5attr_tests.c \
+         read_h5attrs_tests.c \
+         read_h5dset_tests.c \
+         read_h5dattr_tests.c \
+         read_h5dattrs_tests.c
 
-_LIBS := -lhdf5
+_FSRC := High5.f90
+
+_CLIBS := -lhdf5
+
+_FLIBS :=
 
 include ./Makefile.paCage/Makefile
