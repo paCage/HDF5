@@ -22,10 +22,10 @@
 
 hid_t open_h5(char *fpath, unsigned flag, hid_t fapl_id)
 {
-  hid_t fid = H5Fopen(fpath, flag, fapl_id);
+  hid_t file_id = H5Fopen(fpath, flag, fapl_id);
 
-  if (fid < 0)
+  if (file_id < 0)
     PRINT("[Error] Unable to open HDF5 file: %s\n", fpath);
 
-  return fid;
+  return file_id;
 }

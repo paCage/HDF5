@@ -40,5 +40,6 @@ int read_h5dset(hid_t file_id, char *dset_name, hid_t dtype_id, void *dest)
       return EXIT_FAILURE;
     }
 
+  H5Dclose(dset_id);
   return EXIT_SUCCESS;
 }
