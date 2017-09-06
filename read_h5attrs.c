@@ -11,6 +11,7 @@
  *         attr_name:
  *         dtype_id: Data type identifier from HDF5 lib
  *         dest: Pointer to the memory space to be filled
+ *         attr_type: Attribute type (optional or required)
  *
  * @return: Standard EXIT_SUCCESS or EXIT_FAILURE
  */
@@ -19,6 +20,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include "./read_h5attr.h"
+#include "./High5_types.h"
+#include "./h5err_helper.h"
 
 
 #ifndef PRINT
@@ -32,6 +35,7 @@ int read_h5attrs(hid_t fid, char *group_name, char *attr_name, ...)
 
   hid_t dtype_id, attr_id;
   void *dest;
+  enum _ATypes attr_type;
 
   hid_t group_id = H5Gopen(fid, group_name, H5P_DEFAULT);
 
@@ -49,14 +53,26 @@ int read_h5attrs(hid_t fid, char *group_name, char *attr_name, ...)
     {
       dtype_id = va_arg(vars, hid_t);
       dest = va_arg(vars, void*);
+      attr_type = va_arg(vars, enum _ATypes);
+
+      if(attr_type == optional_attr)
+        h5err_switch_off();
 
       attr_id = H5Aopen_name(group_id, attr_name);
 
       if(attr_id < 0)
         {
-          H5Gclose(group_id);
           PRINT("[Warning] Unable to open attribute %s\n", attr_name);
-          status = EXIT_FAILURE;
+
+          if(attr_type == required_attr)
+            status = EXIT_FAILURE;
+
+          if(attr_type == optional_attr)
+            h5err_switch_on();
+
+          attr_name = va_arg(vars, char*);
+
+          continue;
         }
 
       /* Handle string loading*/
@@ -80,10 +96,22 @@ int read_h5attrs(hid_t fid, char *group_name, char *attr_name, ...)
       if(h5err < 0)
         {
           PRINT("[Warning] Unable to read attribute %s\n", attr_name);
-          status = EXIT_FAILURE;
+
+          if(attr_type == required_attr)
+            status = EXIT_FAILURE;
+
+          if(attr_type == optional_attr)
+            h5err_switch_on();
+
+          attr_name = va_arg(vars, char*);
+
+          continue;
         }
 
       H5Aclose(attr_id);
+
+      if(attr_type == optional_attr)
+        h5err_switch_on();
 
       attr_name = va_arg(vars, char*);
     }

@@ -22,6 +22,9 @@
 
 hid_t open_h5(char *fpath, unsigned flag, hid_t fapl_id)
 {
+  if(H5open() < 0)
+    PRINT("[Error] Unable to initialize HDF5\n");
+
   hid_t file_id = H5Fopen(fpath, flag, fapl_id);
 
   if (file_id < 0)

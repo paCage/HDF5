@@ -2,7 +2,8 @@ module High5
   use hdf5
   use iso_c_binding
 
-  ! Wrapper around C High5 library
+  implicit none
+
 
   interface
      function open_h5_i(fpath, flag, fapl_id) bind(C, name="open_h5")

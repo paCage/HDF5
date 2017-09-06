@@ -18,7 +18,8 @@ _TSRC := open_h5_tests.c \
          read_h5dattrs_tests.c \
          get_h5dset_dims_tests.c
 
-_FSRC := High5.f90
+_FSRC := High5.f90 \
+         High5_types.f90
 
 _CLIBS := -lhdf5
 
