@@ -5,7 +5,7 @@
 #include <hdf5.h>
 
 
-static struct _h5err_switch
+struct _h5err_switch
 {
   H5E_auto_t func;
   void *data;
