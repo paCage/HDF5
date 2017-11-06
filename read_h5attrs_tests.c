@@ -61,16 +61,16 @@ Ensure(read_h5attrs, reads_a_list_of_attributes_from_one_group)
 
   assert_that(
     read_h5attrs(fid, "group2",
-                 "Not_exist_attr_1", H5T_C_S1, &s_value, optional_attr,
-                 "Not_exist_attr_2", H5T_NATIVE_INT, &i_value, optional_attr,
-                 "Not_exist_attr_3", H5T_NATIVE_DOUBLE, &d_value, optional_attr,
+                 "Not_existed_attr_1", H5T_C_S1, &s_value, optional_attr,
+                 "Not_existed_attr_2", H5T_NATIVE_INT, &i_value, optional_attr,
+                 "Not_existed_attr_3", H5T_NATIVE_DOUBLE, &d_value, optional_attr,
                  NULL),
     is_equal_to(EXIT_SUCCESS)
   );
 
   assert_that(
     read_h5attrs(fid, "group2",
-                 "Not_exist_attr_1", H5T_C_S1, &s_value, required_attr,
+                 "Not_existed_attr_1", H5T_C_S1, &s_value, required_attr,
                  "i_value", H5T_NATIVE_INT, &i_value, optional_attr,
                  "d_value", H5T_NATIVE_DOUBLE, &d_value, optional_attr,
                  NULL),

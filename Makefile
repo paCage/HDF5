@@ -23,6 +23,6 @@ _FSRC := High5.f90 \
 
 _CLIBS := -lhdf5
 
-_FLIBS :=
+_FLIBS := -I ${HOME}/.local/include
 
 include ./Makefile.paCage/Makefile

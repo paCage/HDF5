@@ -7,10 +7,10 @@
  * @param: fid: File identifier
  * @param: group_name:
  * @param: For each attribute to be retrieved there should be an attr_name,
- *         dtype_id and dest. The list must be ended to NULL
+ *         dtype_id and buf. The list must be ended to NULL
  *         attr_name:
  *         dtype_id: Data type identifier from HDF5 lib
- *         dest: Pointer to the memory space to be filled
+ *         buf: Pointer to the memory space to be filled
  *         attr_type: Attribute type (optional or required)
  *
  * @return: Standard EXIT_SUCCESS or EXIT_FAILURE
@@ -34,7 +34,7 @@ int read_h5attrs(hid_t fid, char *group_name, char *attr_name, ...)
   va_list vars;
 
   hid_t dtype_id, attr_id;
-  void *dest;
+  void *buf;
   enum _ATypes attr_type;
 
   hid_t group_id = H5Gopen(fid, group_name, H5P_DEFAULT);
@@ -49,10 +49,10 @@ int read_h5attrs(hid_t fid, char *group_name, char *attr_name, ...)
 
   va_start(vars, attr_name);
 
-  while (attr_name != NULL)
+  while(attr_name != NULL)
     {
       dtype_id = va_arg(vars, hid_t);
-      dest = va_arg(vars, void*);
+      buf = va_arg(vars, void*);
       attr_type = va_arg(vars, enum _ATypes);
 
       if(attr_type == optional_attr)
@@ -92,7 +92,7 @@ int read_h5attrs(hid_t fid, char *group_name, char *attr_name, ...)
           H5Tset_size (dtype_id, ++sdim);
         }
 
-      h5err = H5Aread(attr_id, dtype_id, dest);
+      h5err = H5Aread(attr_id, dtype_id, buf);
       if(h5err < 0)
         {
           PRINT("[Warning] Unable to read attribute %s\n", attr_name);
