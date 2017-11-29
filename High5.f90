@@ -41,6 +41,19 @@ module High5
      end function read_h5dset_i
 
 
+     function read_h5dset_part_i(file_id, dset, start, count, dtype_id, buf) &
+          bind(C, name="read_h5dset_part")
+       use hdf5
+       use iso_c_binding
+       integer(kind=c_int), value, intent(in) :: file_id
+       character(len=1, kind=c_char), dimension(*), intent(in) :: dset
+       type(c_ptr), value, intent(in) :: start, count
+       integer(kind=c_int), value, intent(in) :: dtype_id
+       type(c_ptr), value, intent(in) :: buf
+       integer(kind=c_int) :: read_h5dset_part_i
+     end function read_h5dset_part_i
+
+
      function read_h5dattr_i(file_id, dset, attr, dtype_id, buf) &
           bind(C, name="read_h5dattr")
        use hdf5
@@ -94,6 +107,19 @@ contains
 
     err = read_h5dset_i(file_id, trim(dset)//c_null_char, dtype_id, buf)
   end subroutine read_h5dset_f
+
+
+  subroutine read_h5dset_part_f(file_id, dset, start, count, dtype_id, buf, err)
+    integer(hid_t), value, intent(in) :: file_id
+    character(len=*), intent(in) :: dset
+    type(c_ptr), target :: start, count
+    integer(hid_t), value, intent(in) :: dtype_id
+    type(c_ptr), target :: buf
+    integer(kind=4), intent(out), optional :: err
+
+    err = read_h5dset_part_i(file_id, trim(dset)//c_null_char, start, count, &
+         dtype_id, buf)
+  end subroutine read_h5dset_part_f
 
 
   subroutine read_h5dattr_f(file_id, dset, attr, dtype_id, buf, err)

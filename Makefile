@@ -7,7 +7,8 @@ _CSRC := open_h5.c \
          read_h5dset.c \
          read_h5dattr.c \
          read_h5dattrs.c \
-         get_h5dset_dims.c
+         get_h5dset_dims.c \
+         read_h5dset_part.c
 
 _TSRC := open_h5_tests.c \
          close_h5_tests.c \
@@ -16,7 +17,8 @@ _TSRC := open_h5_tests.c \
          read_h5dset_tests.c \
          read_h5dattr_tests.c \
          read_h5dattrs_tests.c \
-         get_h5dset_dims_tests.c
+         get_h5dset_dims_tests.c \
+         read_h5dset_part_tests.c
 
 _FSRC := High5.f90 \
          High5_types.f90
