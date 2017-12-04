@@ -47,7 +47,7 @@ Ensure(read_h5dset_part, reads_a_portion_of_a_dataset)
   hsize_t count[1] = {11};
 
   assert_that(
-    read_h5dset_part(fid, DSET_NAME, start, count, H5T_NATIVE_FLOAT, &buf),
+    read_h5dset_part(fid, DSET_NAME, H5T_NATIVE_FLOAT, start, count, &buf),
     is_equal_to(EXIT_SUCCESS));
 
   for(int i = 0; i < (int)count[0]; i++)
@@ -67,7 +67,7 @@ Ensure(read_h5dset_part, can_read_multi_dimensional_datasets)
   hsize_t count[2] = {5, 3};
 
   assert_that(
-    read_h5dset_part(fid, DSET_2D, start, count, H5T_NATIVE_FLOAT, &buf),
+    read_h5dset_part(fid, DSET_2D, H5T_NATIVE_FLOAT, start, count, &buf),
     is_equal_to(EXIT_SUCCESS));
 
   for(int i = 0; i < 5; i++)

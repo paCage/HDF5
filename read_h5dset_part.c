@@ -25,27 +25,23 @@
 #endif
 
 
-int read_h5dset_part(hid_t fid, char *dset_name, hsize_t * start,
-                     hsize_t * count, hid_t dtype_id, void *buf)
+int read_h5dset_part(hid_t fid, char *dset_name, hid_t dtype_id,
+                     hsize_t * start, hsize_t *count, void *buf)
 {
+  if(count[0] == 0)
+    return EXIT_SUCCESS;
+
   hid_t dset_id = H5Dopen(fid, dset_name, H5P_DEFAULT);
 
   int ndims;
   hsize_t dims[32];
   get_h5dset_dims(fid, dset_name, &ndims, dims);
 
-  if(dset_id < 0)
-    {
-      H5Dclose(dset_id);
-      PRINT("[Warning] Unable to open dataset %s\n", dset_name);
-      return EXIT_FAILURE;
-    }
-
   /* Offset from the begining of the dataset */
   hid_t dspace = H5Dget_space(dset_id);
   H5Sselect_hyperslab(dspace, H5S_SELECT_SET, start , NULL, count, NULL);
 
-  hid_t mspace = H5Screate_simple(ndims, dims, NULL);
+  hid_t mspace = H5Screate_simple(ndims, count, NULL);
 
   /* Offset from memspace */
   hsize_t start_tmp = start[0];
