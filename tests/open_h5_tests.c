@@ -4,10 +4,10 @@
 
 
 #include <cgreen/cgreen.h>
-#include "./open_h5.h"
+#include "./../src/open_h5.h"
 
 
-#define FPATH "./sample.hdf5"
+#define FPATH "./tests/sample.hdf5"
 
 
 Describe(open_h5);

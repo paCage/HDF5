@@ -4,10 +4,10 @@
 
 
 #include <cgreen/cgreen.h>
-#include "./get_h5dset_dims.h"
+#include "./../src/get_h5dset_dims.h"
 
 
-#define FPATH "./sample.hdf5"
+#define FPATH "./tests/sample.hdf5"
 #define DSET_PATH "group2/2D_dataset"
 #define DSET_NDIMS 2
 #define DSET_DIM0 14
