@@ -4,10 +4,10 @@
 
 
 #include <cgreen/cgreen.h>
-#include "./read_h5attr.h"
+#include "./../src/read_h5attr.h"
 
 
-#define FNAME "./sample.hdf5"
+#define FNAME "./tests/sample.hdf5"
 #define D_VALUE 1.23456789
 #define I_VALUE 1
 #define S_VALUE "1.23456789"

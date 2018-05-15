@@ -1,30 +1,38 @@
 MODULE_NAME := High5
 
-_CSRC := open_h5.c \
-         close_h5.c \
-         read_h5attr.c \
-         read_h5attrs.c \
-         read_h5dset.c \
-         read_h5dattr.c \
-         read_h5dattrs.c \
-         get_h5dset_dims.c \
-         read_h5dset_part.c
+MAJOR := 0
+MINOR := 0
+PATCH := 0
 
-_TSRC := open_h5_tests.c \
-         close_h5_tests.c \
-         read_h5attr_tests.c \
-         read_h5attrs_tests.c \
-         read_h5dset_tests.c \
-         read_h5dattr_tests.c \
-         read_h5dattrs_tests.c \
-         get_h5dset_dims_tests.c \
-         read_h5dset_part_tests.c
 
-_FSRC := High5.f90 \
-         High5_types.f90
+OBJS := open_h5.o \
+        close_h5.o \
+        read_h5attr.o \
+        read_h5attrs.o \
+        read_h5dset.o \
+        read_h5dattr.o \
+        read_h5dattrs.o \
+        get_h5dset_dims.o \
+        read_h5dset_part.o
 
-_CLIBS := -lhdf5
 
-_FLIBS := -I ${HOME}/.local/include
+FORTRAN_OBJS := High5_types.o \
+                High5.o
+
+
+TEST_OBJS := open_h5_tests.o \
+             close_h5_tests.o \
+             read_h5attr_tests.o \
+             read_h5attrs_tests.o \
+             read_h5dset_tests.o \
+             read_h5dattr_tests.o \
+             read_h5dattrs_tests.o \
+             get_h5dset_dims_tests.o \
+             read_h5dset_part_tests.o
+
+
+INCLUDES := -I ${HOME}/.local/include
+LIBS := -lhdf5
+
 
 include ./Makefile.paCage/Makefile

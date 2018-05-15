@@ -4,10 +4,10 @@
 
 
 #include <cgreen/cgreen.h>
-#include "./read_h5dattr.h"
+#include "./../src/read_h5dattr.h"
 
 
-#define FNAME "./sample.hdf5"
+#define FNAME "./tests/sample.hdf5"
 #define DSET_NAME "group1/dataset1"
 #define D_VALUE 1.23456789
 #define I_VALUE 1
